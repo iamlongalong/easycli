@@ -1,0 +1,38 @@
+
+Commands:
+  - Name: "et"  # command name
+    Desc: "evaluation tool"  # command description
+    # DefaultChild: ""   # default children command, 先不加，有需求再加
+    Run:  # run command, 调用外部
+      Command: "" # 调用外部命令？
+      Scripts: |- # 运行 scripts ? 结合 task 的方案？
+        echo {{.xx}}  # 仅支持变量的渲染，或者直接采用 task 的方案
+      Args: []
+    KVs:
+      - Key: ""
+        MustGet: false
+    Children:
+      - Command:
+          Name: "log"
+          Desc: "to log argos"
+
+  - Name: ""
+
+
+KeyManager:
+  DBType: "" # sqlite3 / jsonfile / mysql
+  DBSource: "" # file path for sqlite3/jsonfile, dsn for mysql
+  Keys:
+    - Key: "ENV"
+      Current: "" # 当前的值
+      Enums: ["boe", "cn", "i18n"]
+      GetFrom:
+        From: ""  # url, command, jsonfile key path
+        URL: ""
+        CMD: "" # must defined 
+
+      UseCache: true  # 使用本地缓存，若 false，则每次去拉取
+      CacheUpdate: "" # 缓存更新时间，
+      SortOptimize:
+        Enable: true
+        SortWith: "LRU" # LRU / LFU / LRFU (LRFU 待实现)
